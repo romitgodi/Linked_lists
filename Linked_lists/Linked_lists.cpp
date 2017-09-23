@@ -1,5 +1,6 @@
-// Linked_lists.cpp : Defines the entry point for the console application.
-//
+// Linked_lists.cpp 
+// Author: Romit Godi
+// Ref: http://www.mycodeschool.com/work-outs/linked-list-set-01/8
 
 #include "stdafx.h"
 #include "stdlib.h"
@@ -16,14 +17,15 @@ Node* head;
 
 void printList()
 {
-	Node* temp = head;
+	Node* temp = (Node*)malloc(sizeof(Node));
+	temp = head;
 	while (temp != NULL)
 	{
 		std::cout << " " << temp->data;
 		temp = temp->next;
 	}
 	std::cout << std::endl;
-	//free(temp);
+	free(temp);
 }
 
 void insertAtStart(int x)
@@ -80,6 +82,27 @@ void insertAtPosition(int x, int p, int n)
 	}
 }
 
+void deleteFromPosition(int p)
+{
+	Node* temp_1 = head;
+
+	if (p == 1)
+	{
+		head = temp_1->next;
+		free(temp_1);
+	}
+	else
+	{
+		for (int i = 0; i < p - 2; i++)
+		{
+			temp_1 = temp_1->next;
+		}
+		Node* temp_2 = temp_1->next;
+		temp_1->next = temp_2->next;
+		free(temp_2);
+	}
+}
+
 int genericInsertFunction(int key)
 {
 	int n, x;
@@ -113,7 +136,7 @@ int genericInsertFunction(int key)
 int main(int argc, char** argv)
 {
 	head = NULL;
-	int key, n, x;
+	int key, n, x, p;
 
 	std::cout << "1. Insert at the start of list" << std::endl;
 	std::cout << "2. Insert at the end of list" << std::endl;
@@ -132,7 +155,6 @@ int main(int argc, char** argv)
 		break;
 	case 3:
 		n = genericInsertFunction(1);
-		int p;
 		std::cout << "Enter the number to insert: " << std::endl;
 		std::cin >> x;
 		std::cout << std::endl;
@@ -145,6 +167,13 @@ int main(int argc, char** argv)
 		printList();
 		break;
 	case 4:
+		n = genericInsertFunction(1);
+		std::cout << "Enter the position to delete: ";
+		std::cin >> p;
+		std::cout << std::endl;
+
+		deleteFromPosition(p);
+		printList();
 		break;
 	default:
 		break;
